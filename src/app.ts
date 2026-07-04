@@ -3,13 +3,13 @@ import express, {
   type Request,
   type Response,
 } from "express";
-// import { userRoute } from "./modules/user/user.route";
-// import { profileRoute } from "./modules/profile/profile.route";
-// import { authRoute } from "./modules/auth/auth.route";
+import { userRoute } from "./modules/user/user.route";
+import { issueRoute } from "./modules/issue/issue.route";
+import { authRoute } from "./modules/auth/auth.route";
 import logger from "./middleware/loggger";
 import CookieParser from "cookie-parser";
-// import cors from "cors";
-// import globalErrorHandler from "./middleware/globalErrorHandler";
+import cors from "cors";
+import globalErrorHandler from "./middleware/globalErrorHandler";
 
 const app: Application = express();
 
@@ -20,11 +20,11 @@ app.use(express.urlencoded({ extended: true })); //nested data gulo nibe extende
 
 //middleware for full application.
 app.use(logger);
-// app.use(
-//   cors({
-//     origin: "http://localhost:8000",
-//   }),
-// );
+app.use(
+  cors({
+    origin: "http://localhost:8000",
+  }),
+);
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -33,12 +33,12 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-// app.use("/api/users", userRoute); ///api/users ei route e hit korlei taake mini server userRoute e niye jabe.
-// app.use("/api/profile", profileRoute);
-// app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute); ///api/users ei route e hit korlei taake mini server userRoute e niye jabe.
+app.use("/api/issue", issueRoute);
+app.use("/api/auth", authRoute);
 
 
 // // Global Error Handling Middleware
-// app.use(globalErrorHandler);
+app.use(globalErrorHandler);
 
 export default app;

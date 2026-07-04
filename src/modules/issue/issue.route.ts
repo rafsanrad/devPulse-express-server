@@ -5,4 +5,4 @@ const router=Router()
 
 router.post("/",issueController.createIssue)
 
-export const profileRoute=router
+export const issueRoute=router
