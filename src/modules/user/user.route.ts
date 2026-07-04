@@ -11,7 +11,7 @@ const router = Router();
 router.post("/", userController.createUser);
 router.get(
   "/",
-  auth(USER_ROLE.admin, USER_ROLE.agent),
+  auth(USER_ROLE.maintainer, USER_ROLE.contributor),
   userController.getAllUsers,
 );
 router.get("/:id", userController.getSingleUser);
