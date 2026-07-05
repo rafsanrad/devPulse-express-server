@@ -12,3 +12,9 @@ Method->POST - Time->1783228506651 - Url->/api/auth/login
 Method->POST - Time->1783228675837 - Url->/api/issues
 
 Method->POST - Time->1783228682914 - Url->/api/issues
+
+Method->POST - Time->1783229579853 - Url->/api/issues
+
+Method->POST - Time->1783229667426 - Url->/api/issues
+
+Method->GET - Time->1783229777357 - Url->/api/issues
