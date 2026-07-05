@@ -46,7 +46,76 @@ const getAllIssues = async (req: Request, res: Response) => {
   }
 };
 
+const getSingleIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueService.getSingleIssueFromDB(Number(req.params.id));
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Issue retrieved successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      success: false,
+      message: error.message || "Something went wrong",
+      error,
+    });
+  }
+};
+
+const updateIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueService.updateIssueIntoDB(
+      Number(req.params.id),
+      req.body,
+      req.user!
+    );
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Issue updated successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      success: false,
+      message: error.message || "Something went wrong",
+      error,
+    });
+  }
+};
+
+const deleteIssue = async (req: Request, res: Response) => {
+  try {
+    const result = await issueService.deleteIssueFromDB(
+      Number(req.params.id)
+    );
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
+      success: true,
+      message: "Issue deleted successfully",
+      data: result,
+    });
+  } catch (error: any) {
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
+      success: false,
+      message: error.message || "Something went wrong",
+      error,
+    });
+  }
+};
+
 export const issueController = {
   createIssue,
-  getAllIssues
+  getAllIssues,
+  getSingleIssue,
+  updateIssue,
+  deleteIssue
 };
