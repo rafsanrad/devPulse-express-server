@@ -102,3 +102,137 @@ Method->POST - Time->1783234652315 - Url->/api/issues
 Method->POST - Time->1783234714057 - Url->/api/issues
 
 Method->POST - Time->1783234743580 - Url->/api/issues
+
+Method->GET - Time->1783242178791 - Url->/
+
+Method->GET - Time->1783242256633 - Url->/api/user
+
+Method->GET - Time->1783242268188 - Url->/auth/api/user
+
+Method->GET - Time->1783242272435 - Url->/auth/api/users
+
+Method->GET - Time->1783242276981 - Url->/api/users
+
+Method->POST - Time->1783242333272 - Url->/api/auth/signup
+
+Method->POST - Time->1783242379964 - Url->/api/auth/login
+
+Method->GET - Time->1783242844056 - Url->/api/users/
+
+Method->GET - Time->1783242852284 - Url->/api/users/
+
+Method->GET - Time->1783242866135 - Url->/api/users/
+
+Method->GET - Time->1783242876028 - Url->/api/users/
+
+Method->GET - Time->1783242906617 - Url->/auth/api/users/
+
+Method->GET - Time->1783242907721 - Url->/auth/api/users/
+
+Method->GET - Time->1783242918967 - Url->/api/users/
+
+Method->GET - Time->1783242961416 - Url->/api/users
+
+Method->GET - Time->1783243103737 - Url->/api/users
+
+Method->GET - Time->1783243111527 - Url->/api/users
+
+Method->GET - Time->1783243430965 - Url->/api/login
+
+Method->POST - Time->1783243447408 - Url->/api/auth/login
+
+Method->POST - Time->1783243497809 - Url->/api/auth/login
+
+Method->POST - Time->1783243511396 - Url->/api/auth/login
+
+Method->GET - Time->1783243534275 - Url->/api/users
+
+Method->POST - Time->1783243542874 - Url->/api/users
+
+Method->GET - Time->1783243551140 - Url->/auth/api/users
+
+Method->GET - Time->1783243582000 - Url->/api/users
+
+Method->POST - Time->1783244050638 - Url->/api/auth/login
+
+Method->GET - Time->1783244125722 - Url->/api/users
+
+Method->GET - Time->1783244319071 - Url->/api/users
+
+Method->GET - Time->1783244333478 - Url->/api/users
+
+Method->GET - Time->1783244340577 - Url->/api/users
+
+Method->POST - Time->1783244393855 - Url->/api/auth/signup
+
+Method->POST - Time->1783244411287 - Url->/api/auth/login
+
+Method->POST - Time->1783244415811 - Url->/api/auth/login
+
+Method->POST - Time->1783244421280 - Url->/api/auth/login
+
+Method->GET - Time->1783244447678 - Url->/api/users
+
+Method->GET - Time->1783244458110 - Url->/api/users
+
+Method->GET - Time->1783244465894 - Url->/api/users
+
+Method->GET - Time->1783244470606 - Url->/api/users
+
+Method->GET - Time->1783244479526 - Url->/api/users/1
+
+Method->GET - Time->1783244484023 - Url->/api/users/3
+
+Method->GET - Time->1783244487466 - Url->/api/users/4
+
+Method->PUT - Time->1783244561506 - Url->/api/users/1
+
+Method->PUT - Time->1783244579912 - Url->/api/users/1
+
+Method->DELETE - Time->1783244627330 - Url->/api/users/10
+
+Method->DELETE - Time->1783244635793 - Url->/api/users/1
+
+Method->POST - Time->1783244720096 - Url->/api/auth/login
+
+Method->POST - Time->1783244752195 - Url->/api/issues
+
+Method->POST - Time->1783244856910 - Url->/api/auth/login
+
+Method->POST - Time->1783244894808 - Url->/api/issues
+
+Method->POST - Time->1783245017140 - Url->/api/issues
+
+Method->GET - Time->1783245056520 - Url->/api/issues
+
+Method->GET - Time->1783245088331 - Url->/api/issues?type=bug
+
+Method->GET - Time->1783245103913 - Url->/api/issues?status=open
+
+Method->GET - Time->1783245127696 - Url->/api/issues?sort=oldest
+
+Method->GET - Time->1783245137102 - Url->/api/issues?sort=newest
+
+Method->GET - Time->1783245159609 - Url->/api/issues/1
+
+Method->GET - Time->1783245162465 - Url->/api/issues/3
+
+Method->PATCH - Time->1783245226186 - Url->/api/issues/3
+
+Method->PATCH - Time->1783245238648 - Url->/api/issues/6
+
+Method->PATCH - Time->1783245251580 - Url->/api/issues/6
+
+Method->POST - Time->1783245304150 - Url->/api/auth/login
+
+Method->DELETE - Time->1783245338731 - Url->/api/issues/2
+
+Method->DELETE - Time->1783245344063 - Url->/api/issues/3
+
+Method->DELETE - Time->1783245359012 - Url->/api/issues/3
+
+Method->POST - Time->1783245398615 - Url->/api/auth/login
+
+Method->DELETE - Time->1783245414532 - Url->/api/issues/6
+
+Method->GET - Time->1783245687135 - Url->/api/issues
