@@ -1,27 +1,24 @@
 import { pool } from "../../db";
+import type { TCreateIssue } from "../../types";
 
-const createIssueIntoDB = async (payload: any) => {
-  // console.log(payload)
-  const { user_id, bio, address, phone, gender } = payload;
-  //first check if the user is exists.
-  const user = await pool.query(
-    `
-    SELECT * FROM users WHERE id=$1
-    `,
-    [user_id],
-  );
-  // console.log(user)
-  if (user.rows.length === 0) {
-    throw new Error("User not exists");
-  }
+const createIssueIntoDB = async (
+  payload: TCreateIssue,
+  reporterId: number
+) => {
+  const { title, description, type } = payload;
+
   const result = await pool.query(
     `
-        INSERT INTO profiles(user_id, bio, address, phone, gender) VALUES($1,$2,$3,$4,$5) RETURNING *
-        `,
-    [user_id, bio, address, phone, gender],
+      INSERT INTO issues (title, description, type, reporter_id)
+      VALUES ($1, $2, $3, $4)
+      RETURNING *
+    `,
+    [title, description, type, reporterId]
   );
-  return result
+
+  return result.rows[0];
 };
+
 export const issueService = {
   createIssueIntoDB,
 };
