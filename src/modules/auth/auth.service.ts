@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { pool } from "../../db";
 import config from "../../config";
+import AppError from "../../errors/AppError";
 
 const signupUserIntoDB = async (payload: {
   name: string;
@@ -11,25 +12,25 @@ const signupUserIntoDB = async (payload: {
 }) => {
   const { name, email, password, role = "contributor" } = payload;
 
-  // Check if email already exists
+  // 1. Check if user exists
   const existingUser = await pool.query(
     `SELECT * FROM users WHERE email = $1`,
     [email]
   );
 
   if (existingUser.rows.length > 0) {
-    throw new Error("User already exists.");
+    throw new AppError(409, "User already exists");
   }
 
-  // Hash password
+  // 2. Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Insert user
+  // 3. Insert user
   const result = await pool.query(
     `
-      INSERT INTO users (name, email, password, role)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, name, email, role, created_at, updated_at
+    INSERT INTO users (name, email, password, role)
+    VALUES ($1, $2, $3, $4)
+    RETURNING id, name, email, role, created_at, updated_at
     `,
     [name, email, hashedPassword, role]
   );
@@ -43,26 +44,26 @@ const loginUserIntoDB = async (payload: {
 }) => {
   const { email, password } = payload;
 
-  // Check user
+  // 1. Check user
   const userData = await pool.query(
     `SELECT * FROM users WHERE email = $1`,
     [email]
   );
 
   if (userData.rows.length === 0) {
-    throw new Error("Invalid credentials.");
+    throw new AppError(401, "Invalid credentials");
   }
 
   const user = userData.rows[0];
 
-  // Compare password
+  // 2. Check password
   const matched = await bcrypt.compare(password, user.password);
 
   if (!matched) {
-    throw new Error("Invalid credentials.");
+    throw new AppError(401, "Invalid credentials");
   }
 
-  // JWT payload (as required by assignment)
+  // 3. JWT payload
   const jwtPayload = {
     id: user.id,
     name: user.name,

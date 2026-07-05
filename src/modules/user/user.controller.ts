@@ -1,134 +1,117 @@
 import type { Request, Response } from "express";
-import { pool } from "../../db";
 import { userService } from "./user.service";
 import sendResponse from "../../utility/sendResponse";
+import { StatusCodes } from "http-status-codes";
 
 const createUser = async (req: Request, res: Response) => {
-  // console.log(req.body)
-//   const { name, email, password, age } = req.body;
   try {
-    const result=await userService.createUserIntoDB(req.body)
+    const result = await userService.createUserIntoDB(req.body);
 
-    sendResponse(res,{
-      statusCode:201,
+    sendResponse(res, {
+      statusCode: StatusCodes.CREATED,
       success: true,
       message: "User created successfully.",
-      data: result.rows[0],
-    })
+      data: result,
+    });
   } catch (error: any) {
-    sendResponse(res,{
-      statusCode:500,
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
       message: error.message,
-      error:error
-    })
+      error,
+    });
   }
 };
 
-const getAllUsers=async (req: Request, res: Response) => {
-  // console.log("from controlller",req.user)
+const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const result=await userService.getALlUsersFromDB()
-    res.status(200).json({
+    const result = await userService.getALlUsersFromDB();
+
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: "Users retrived successfully.",
-      data: result.rows,
+      message: "Users retrieved successfully.",
+      data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
       message: error.message,
-      data: error,
+      error,
     });
   }
-}
+};
 
-const getSingleUser=async (req: Request, res: Response) => {
-  const { id } = req.params; //url theke id niye ashlam.
+const getSingleUser = async (req: Request, res: Response) => {
   try {
-    const result=await userService.getSingleUserFromDB(id as string)
+    const id = req.params.id as string;
 
-    if (result.rows.length === 0) {
-      //user na thakle seta handle kortesi.
-      res.status(404).json({
-        success: false,
-        message: "User Not Found.",
-        data: {},
-      });
-    }
+    const result = await userService.getSingleUserFromDB(id);
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: "User retrived successfully.",
-      data: result.rows[0],
+      message: "User retrieved successfully.",
+      data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
       message: error.message,
-      data: error,
+      error,
     });
   }
-}
+};
 
-const updateUser=async (req: Request, res: Response) => {
-  const { id } = req.params;
-//   const { name, age, password, is_active } = req.body;
-
+const updateUser = async (req: Request, res: Response) => {
   try {
-    const result=await userService.updateUserFromDB(req.body,id as string)
+    const id = req.params.id as string;
 
-    if (result.rows.length === 0) {
-      res.status(404).json({
-        success: false,
-        message: "User Not Found.",
-      });
-    }
+    const result = await userService.updateUserFromDB(req.body, id);
 
-    // console.log(result)
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: "Users updated successfully.",
-      data: result.rows[0],
+      message: "User updated successfully.",
+      data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
       message: error.message,
-      data: error,
+      error,
     });
   }
-}
+};
 
-const deleteUser= async (req: Request, res: Response) => {
-  const { id } = req.params;
+const deleteUser = async (req: Request, res: Response) => {
   try {
-    const result=await userService.deleteUserFromDB(id as string)
+    const id = req.params.id as string;
 
-    if (result.rowCount === 0) {
-      res.status(404).json({
-        success: false,
-        message: "User Not Found.",
-      });
-    }
+    await userService.deleteUserFromDB(id);
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: "Users deleted successfully.",
+      message: "User deleted successfully.",
     });
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
       message: error.message,
-      data: error,
+      error,
     });
   }
-}
+};
 
-export const userController={
-    createUser,
-    getAllUsers,
-    getSingleUser,
-    updateUser,
-    deleteUser
-}
+export const userController = {
+  createUser,
+  getAllUsers,
+  getSingleUser,
+  updateUser,
+  deleteUser,
+};

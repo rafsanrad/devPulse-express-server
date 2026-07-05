@@ -62,3 +62,43 @@ Method->POST - Time->1783231693507 - Url->/api/auth/signup
 Method->POST - Time->1783231715122 - Url->/api/auth/login
 
 Method->DELETE - Time->1783231783712 - Url->/api/issues/2
+
+Method->GET - Time->1783233180892 - Url->/api/issues
+
+Method->GET - Time->1783233246210 - Url->/api/issues/1
+
+Method->GET - Time->1783233259097 - Url->/api/issues
+
+Method->PATCH - Time->1783233305560 - Url->/api/issues/1
+
+Method->PATCH - Time->1783233313223 - Url->/api/issues/2
+
+Method->PATCH - Time->1783233318008 - Url->/api/issues/1
+
+Method->GET - Time->1783233446689 - Url->/api/issues/1
+
+Method->GET - Time->1783233662096 - Url->/api/issues
+
+Method->GET - Time->1783233691336 - Url->/api/issues?sort=newest
+
+Method->GET - Time->1783233703891 - Url->/api/issues?sort=oldest
+
+Method->GET - Time->1783233720768 - Url->/api/issues?type=bug
+
+Method->GET - Time->1783233735820 - Url->/api/issues?type=feature_request
+
+Method->POST - Time->1783234410668 - Url->/api/auth/signup
+
+Method->POST - Time->1783234433476 - Url->/api/auth/login
+
+Method->POST - Time->1783234489524 - Url->/api/auth/login
+
+Method->POST - Time->1783234496812 - Url->/api/auth/login
+
+Method->POST - Time->1783234558867 - Url->/api/auth/login
+
+Method->POST - Time->1783234652315 - Url->/api/issues
+
+Method->POST - Time->1783234714057 - Url->/api/issues
+
+Method->POST - Time->1783234743580 - Url->/api/issues

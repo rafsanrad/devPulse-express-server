@@ -28,7 +28,7 @@ const createIssue = async (req: Request, res: Response) => {
 
 const getAllIssues = async (req: Request, res: Response) => {
   try {
-    const result = await issueService.getAllIssuesFromDB();
+    const result = await issueService.getAllIssuesFromDB(req.query);
 
     sendResponse(res, {
       statusCode: StatusCodes.OK,
