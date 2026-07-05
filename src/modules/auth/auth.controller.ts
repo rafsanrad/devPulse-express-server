@@ -44,7 +44,6 @@ const loginUser = async (req: Request, res: Response) => {
   }
 };
 
-// const refreshToken = async (req: Request, res: Response) => {
 //   // console.log(req.cookies)
 //   try {
 //     const result = await authService.generateFreshToken(
@@ -68,5 +67,5 @@ const loginUser = async (req: Request, res: Response) => {
 export const authController = {
   signupUser,
   loginUser,
-//   refreshToken,
+
 };

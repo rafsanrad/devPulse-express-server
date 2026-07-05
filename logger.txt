@@ -236,3 +236,7 @@ Method->POST - Time->1783245398615 - Url->/api/auth/login
 Method->DELETE - Time->1783245414532 - Url->/api/issues/6
 
 Method->GET - Time->1783245687135 - Url->/api/issues
+
+Method->GET - Time->1783257011288 - Url->/
+
+Method->GET - Time->1783257023205 - Url->/api/users

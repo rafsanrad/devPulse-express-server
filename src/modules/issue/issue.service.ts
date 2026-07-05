@@ -3,7 +3,6 @@ import { pool } from "../../db";
 import type { TCreateIssue, TIssueQuery } from "../../types";
 import AppError from "../../errors/AppError";
 
-/* ---------------- CREATE ISSUE ---------------- */
 const createIssueIntoDB = async (
   payload: TCreateIssue,
   reporterId: number
@@ -22,7 +21,7 @@ const createIssueIntoDB = async (
   return result.rows[0];
 };
 
-/* ---------------- GET ALL ISSUES ---------------- */
+
 const getAllIssuesFromDB = async (query: TIssueQuery) => {
   const { sort = "newest", type, status } = query;
 
@@ -81,7 +80,7 @@ const getAllIssuesFromDB = async (query: TIssueQuery) => {
   }));
 };
 
-/* ---------------- GET SINGLE ISSUE ---------------- */
+
 const getSingleIssueFromDB = async (id: number) => {
   const result = await pool.query(
     `SELECT * FROM issues WHERE id = $1`,
@@ -113,7 +112,6 @@ const getSingleIssueFromDB = async (id: number) => {
   };
 };
 
-/* ---------------- UPDATE ISSUE (SAFE PATCH) ---------------- */
 const updateIssueIntoDB = async (
   id: number,
   payload: Partial<TCreateIssue>,
@@ -184,7 +182,7 @@ const updateIssueIntoDB = async (
   return result.rows[0];
 };
 
-/* ---------------- DELETE ISSUE ---------------- */
+
 const deleteIssueFromDB = async (id: number) => {
   const issueData = await pool.query(
     `SELECT * FROM issues WHERE id = $1`,

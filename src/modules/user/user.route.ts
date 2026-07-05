@@ -7,29 +7,12 @@ const router = Router();
 
 router.post("/", userController.createUser);
 
+router.get("/", auth(USER_ROLE.maintainer), userController.getAllUsers);
 
-router.get(
-  "/",
-  auth(USER_ROLE.maintainer),
-  userController.getAllUsers
-);
+router.get("/:id", auth(USER_ROLE.maintainer), userController.getSingleUser);
 
-router.get(
-  "/:id",
-  auth(USER_ROLE.maintainer),
-  userController.getSingleUser
-);
+router.put("/:id", auth(USER_ROLE.maintainer), userController.updateUser);
 
-router.put(
-  "/:id",
-  auth(USER_ROLE.maintainer),
-  userController.updateUser
-);
-
-router.delete(
-  "/:id",
-  auth(USER_ROLE.maintainer),
-  userController.deleteUser
-);
+router.delete("/:id", auth(USER_ROLE.maintainer), userController.deleteUser);
 
 export const userRoute = router;

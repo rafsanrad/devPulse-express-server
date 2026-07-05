@@ -1,67 +1,45 @@
-# Issue Tracker API
+Devpulse
 
-A RESTful Issue Tracker API built with **Node.js**, **Express.js**, **TypeScript**, and **PostgreSQL**. The application supports user authentication, role-based authorization, and complete issue management for contributors and maintainers.
+A RESTful Issue Tracker API built with Node.js, Express.js, TypeScript, and PostgreSQL. The application supports user authentication, role-based authorization, and complete issue management for contributors and maintainers.
 
 ## Features
 
 ### Authentication
 
-* User registration (Signup)
-* User login with JWT authentication
-* Password hashing using bcrypt
-* Protected routes
+ User registration (Signup)
+ User login with JWT authentication
+ Password hashing using bcrypt
+ Protected routes
 
 ### Authorization
 
-* Role-based access control
-* Two roles:
+ Role-based access control
+ Two roles:
 
-  * **Maintainer**
-  * **Contributor**
+  Maintainer
+  Contributor
 
 ### Issue Management
 
-* Create Issue
-* Get All Issues
-* Get Single Issue
-* Update Issue
-* Delete Issue
-* Filter issues by status
-* Filter issues by type
-* Sort issues by newest or oldest
+ Create Issue
+ Get All Issues
+ Get Single Issue
+ Update Issue
+ Delete Issue
+ Filter issues by status
+ Filter issues by type
+ Sort issues by newest or oldest
 
 ### User Management
-
-* Create User
-* Get All Users
-* Get Single User
-* Update User
-* Delete User
+ Create User Get All Users Get Single User Update User Delete User
 
 ### Other Features
 
-* Global Error Handling
-* Request Logging Middleware
-* PostgreSQL Database Integration
-* Clean Project Structure
-* TypeScript Support
-
----
-
-# Technologies Used
-
-* Node.js
-* Express.js
-* TypeScript
-* PostgreSQL
-* pg
-* bcryptjs
-* jsonwebtoken (JWT)
-* dotenv
-* cors
-* http-status-codes
-
----
+ Global Error Handling
+ Request Logging Middleware
+ PostgreSQL Database Integration
+ Clean Project Structure
+ TypeScript Support
 
 
 # Database Setup
@@ -176,28 +154,9 @@ Authorization: <your_jwt_token>
 
 ---
 
-# Roles
-
-### Maintainer
-
-* View users
-* Create issues
-* Update any issue
-* Delete any issue
-
-### Contributor
-
-* Create issues
-* View issues
-* Update only their own open issues
-* Cannot delete issues
-
----
-
-
 # Author
 
-**Rafsan Jahin Rad**
+Rafsan Jahin Rad
 
 ---
 # License
