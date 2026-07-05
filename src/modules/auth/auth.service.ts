@@ -1,92 +1,92 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { pool } from "../../db";
-import jwt, { type JwtPayload } from "jsonwebtoken";
 import config from "../../config";
+
+const signupUserIntoDB = async (payload: {
+  name: string;
+  email: string;
+  password: string;
+  role?: "contributor" | "maintainer";
+}) => {
+  const { name, email, password, role = "contributor" } = payload;
+
+  // Check if email already exists
+  const existingUser = await pool.query(
+    `SELECT * FROM users WHERE email = $1`,
+    [email]
+  );
+
+  if (existingUser.rows.length > 0) {
+    throw new Error("User already exists.");
+  }
+
+  // Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Insert user
+  const result = await pool.query(
+    `
+      INSERT INTO users (name, email, password, role)
+      VALUES ($1, $2, $3, $4)
+      RETURNING id, name, email, role, created_at, updated_at
+    `,
+    [name, email, hashedPassword, role]
+  );
+
+  return result.rows[0];
+};
 
 const loginUserIntoDB = async (payload: {
   email: string;
   password: string;
 }) => {
   const { email, password } = payload;
-  //1.check if the user exists
-  //2.compare the password
-  //3.Generate token
-  const userData = await pool.query(
-    `
-        SELECT * FROM users WHERE email=$1
-        `,
-    [email],
-  );
-  if (userData.rows.length === 0) {
-    throw new Error("Invalid Credentials.");
-  }
-  const user = userData.rows[0];
-  //   console.log(user);
-  const matchPassword = await bcrypt.compare(password, user.password);
 
-  if (!matchPassword) {
-    throw new Error("Invalid Credentials.");
+  // Check user
+  const userData = await pool.query(
+    `SELECT * FROM users WHERE email = $1`,
+    [email]
+  );
+
+  if (userData.rows.length === 0) {
+    throw new Error("Invalid credentials.");
   }
-  //generate token
+
+  const user = userData.rows[0];
+
+  // Compare password
+  const matched = await bcrypt.compare(password, user.password);
+
+  if (!matched) {
+    throw new Error("Invalid credentials.");
+  }
+
+  // JWT payload (as required by assignment)
   const jwtPayload = {
     id: user.id,
     name: user.name,
     role: user.role,
-    is_active: user.is_active,
-    email: user.email,
   };
-  const accessToken = jwt.sign(jwtPayload, config.secret as string, {
+
+  const token = jwt.sign(jwtPayload, config.secret as string, {
     expiresIn: "1d",
   });
 
-  const refreshToken = jwt.sign(jwtPayload, config.refresh_secret as string, {
-    expiresIn: "10 d",
-  });
-
-  return { accessToken, refreshToken };
-};
-
-const generateFreshToken = async (token: string) => {
-  if (!token) {
-    throw new Error("Unauthorized.");
-  }
-
-  const decoded = jwt.verify(
-    token as string,
-    config.refresh_secret as string,
-  ) as JwtPayload;
-
-  const userData = await pool.query(
-    `
-        SELECT * FROM users WHERE email=$1
-        `,
-    [decoded.email],
-  );
-
-  const user = userData.rows[0];
-
-  if (userData.rows.length === 0) {
-    throw new Error("User not found");
-  }
-  if (!user?.is_active) {
-    throw new Error("Forbidden");
-  }
-
-  const jwtPayload = {
-    id: user.id,
-    name: user.name,
-    role: user.role,
-    is_active: user.is_active,
-    email: user.email,
+  return {
+    token,
+    user: {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      created_at: user.created_at,
+      updated_at: user.updated_at,
+    },
   };
-  const accessToken = jwt.sign(jwtPayload, config.secret as string, {
-    expiresIn: "1d",
-  });
-
-  return {accessToken}
 };
 
 export const authService = {
+  signupUserIntoDB,
   loginUserIntoDB,
-  generateFreshToken,
 };

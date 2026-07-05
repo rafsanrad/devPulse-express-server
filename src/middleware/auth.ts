@@ -1,68 +1,55 @@
 import type { NextFunction, Request, Response } from "express";
 import jwt, { type JwtPayload } from "jsonwebtoken";
+import { StatusCodes } from "http-status-codes";
+
 import config from "../config";
 import { pool } from "../db";
 import type { ROLES } from "../types";
 
-
 const auth = (...roles: ROLES[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
-    console.log(roles);
     try {
-      // console.log("THis is protected Route");
-      // console.log(req.headers.authorization)
-
-      //1.check if the token exists
-      //2.verify the token
-      //3.find the user into database
-      //4.if the user is active or not?
+      // 1. Get token from Authorization header
       const token = req.headers.authorization;
-      console.log(token);
+
       if (!token) {
-        res.status(401).json({
+        return res.status(StatusCodes.UNAUTHORIZED).json({
           success: false,
           message: "Unauthorized access!",
         });
       }
 
+      // 2. Verify token
       const decoded = jwt.verify(
-        token as string,
-        config.secret as string,
+        token,
+        config.secret as string
       ) as JwtPayload;
-      // console.log(decoded)
+
+      // 3. Check if user exists
       const userData = await pool.query(
-        `
-        SELECT * FROM users WHERE email=$1
-        `,
-        [decoded.email],
+        `SELECT * FROM users WHERE id = $1`,
+        [decoded.id]
       );
-      // console.log(userData)
-      const user = userData.rows[0];
-      // console.log(user)
+
       if (userData.rows.length === 0) {
-        res.status(404).json({
+        return res.status(StatusCodes.NOT_FOUND).json({
           success: false,
           message: "User not found!",
         });
       }
-      if (!user?.is_active) {
-        res.status(403).json({
-          success: false,
-          message: "Forbidden!",
-        });
-      }
-      // console.log("auth role",user.role)
 
-      //roles=["admin","agent"]
-      //user.role="admin"|"agent"|"user"
-      if (roles.length && !roles.includes(user.role)) {
-        res.status(403).json({
+      const user = userData.rows[0];
+
+      // 4. Check role (if roles are provided)
+      if (roles.length > 0 && !roles.includes(user.role)) {
+        return res.status(StatusCodes.FORBIDDEN).json({
           success: false,
-          message: "Forbidden!,This role have no access.",
+          message: "Forbidden! You don't have permission to access this resource.",
         });
       }
 
-      req.user = decoded; //req:{user:{}}
+      // 5. Attach decoded user to request
+      req.user = decoded;
 
       next();
     } catch (error) {

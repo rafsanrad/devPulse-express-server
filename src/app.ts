@@ -3,29 +3,22 @@ import express, {
   type Request,
   type Response,
 } from "express";
-import { userRoute } from "./modules/user/user.route";
-import { issueRoute } from "./modules/issue/issue.route";
-import { authRoute } from "./modules/auth/auth.route";
-import logger from "./middleware/loggger";
-import CookieParser from "cookie-parser";
 import cors from "cors";
 import globalErrorHandler from "./middleware/globalErrorHandler";
 
+import { authRoute } from "./modules/auth/auth.route";
+import { issueRoute } from "./modules/issue/issue.route";
+import logger from "./middleware/logger";
+
 const app: Application = express();
 
-app.use(CookieParser());
-app.use(express.json()); //middleware
-app.use(express.text()); //middleware
-app.use(express.urlencoded({ extended: true })); //nested data gulo nibe extended korar maddhome.
-
-//middleware for full application.
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 app.use(logger);
-app.use(
-  cors({
-    origin: "http://localhost:8000",
-  }),
-);
 
+// Root Route
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
     message: "Express Server",
@@ -33,12 +26,11 @@ app.get("/", (req: Request, res: Response) => {
   });
 });
 
-app.use("/api/users", userRoute); ///api/users ei route e hit korlei taake mini server userRoute e niye jabe.
-app.use("/api/issue", issueRoute);
+// Routes
 app.use("/api/auth", authRoute);
+app.use("/api/issues", issueRoute);
 
-
-// // Global Error Handling Middleware
+// Global Error Handler
 app.use(globalErrorHandler);
 
 export default app;

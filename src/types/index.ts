@@ -1,6 +1,6 @@
 export const USER_ROLE = {
   maintainer: "maintainer",
-  contributor:"contributor"
+  contributor: "contributor",
 } as const;
 
-export type ROLES = "maintainer"|"contributor";
+export type ROLES = (typeof USER_ROLE)[keyof typeof USER_ROLE];

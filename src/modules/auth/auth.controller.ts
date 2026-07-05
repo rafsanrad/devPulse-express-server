@@ -1,51 +1,72 @@
 import type { Request, Response } from "express";
+import { StatusCodes } from "http-status-codes";
 import { authService } from "./auth.service";
+import sendResponse from "../../utility/sendResponse";
 
-const loginUser = async (req: Request, res: Response) => {
+
+const signupUser = async (req: Request, res: Response) => {
   try {
-    const result = await authService.loginUserIntoDB(req.body);
-    const {refreshToken}=result
+    const result = await authService.signupUserIntoDB(req.body);
 
-    res.cookie("refreshToken",refreshToken,{
-      secure:false, //In production => true.
-      httpOnly:true,
-      sameSite:'lax'
-    })
-
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.CREATED,
       success: true,
-      message: "Users login successfully.",
+      message: "User registered successfully",
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
-      message: error.message,
-      data: error,
+      message: error.message || "Something went wrong",
+      error,
     });
   }
 };
 
-const refreshToken=async (req: Request, res: Response)=>{
-  // console.log(req.cookies)
+const loginUser = async (req: Request, res: Response) => {
   try {
-    const result = await authService.generateFreshToken(req.cookies.refreshToken);
+    const result = await authService.loginUserIntoDB(req.body);
 
-    res.status(200).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.OK,
       success: true,
-      message: "Access token generated.",
+      message: "Login successful",
       data: result,
     });
   } catch (error: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
       success: false,
-      message: error.message,
-      data: error,
+      message: error.message || "Something went wrong",
+      error,
     });
   }
-}
+};
+
+// const refreshToken = async (req: Request, res: Response) => {
+//   // console.log(req.cookies)
+//   try {
+//     const result = await authService.generateFreshToken(
+//       req.cookies.refreshToken,
+//     );
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Access token generated.",
+//       data: result,
+//     });
+//   } catch (error: any) {
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//       data: error,
+//     });
+//   }
+// };
 
 export const authController = {
+  signupUser,
   loginUser,
-  refreshToken
+//   refreshToken,
 };
